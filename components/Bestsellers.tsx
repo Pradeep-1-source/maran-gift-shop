@@ -17,7 +17,7 @@ export default async function Bestsellers() {
         <h2 className="section-title text-center" style={{ marginBottom: '50px' }}>Latest Products</h2>
         <div className={styles.grid}>
           {products && products.length > 0 ? (
-            products.map((product) => (
+            products.map((product: any) => (
               <ProductCard 
                 key={product.id}
                 id={product.id}

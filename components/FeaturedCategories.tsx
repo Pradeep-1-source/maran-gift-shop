@@ -20,7 +20,7 @@ export default async function FeaturedCategories() {
         
         <div className={styles.grid}>
           {categories && categories.length > 0 ? (
-            categories.map((cat) => (
+            categories.map((cat: any) => (
               <Link href={`/categories/${cat.id}`} key={cat.id} className={styles.card}>
                 <div className={styles.imageWrapper}>
                   <img src={cat.cover_image || '/cat-birthday.png'} alt={cat.name} />

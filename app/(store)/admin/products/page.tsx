@@ -126,7 +126,7 @@ export default function ProductsManagement() {
     if (!confirm('Are you sure you want to delete this product?')) return;
     
     if (imageUrls && imageUrls.length > 0) {
-       const paths = imageUrls.map(url => {
+       const paths = imageUrls.map((url: string) => {
           const parts = url.split('/');
           return parts[parts.length - 1];
        });
@@ -163,7 +163,7 @@ export default function ProductsManagement() {
             <tbody>
               {products.length === 0 ? (
                 <tr><td colSpan={6} style={{textAlign: 'center'}}>No products found.</td></tr>
-              ) : products.map(product => (
+              ) : products.map((product: any) => (
                 <tr key={product.id}>
                   <td>
                     <div className={styles.imgPlaceholder} style={{ background: 'transparent', width: '60px', height: '60px' }}>
@@ -253,7 +253,7 @@ export default function ProductsManagement() {
                   <label>Category</label>
                   <select value={categoryId} onChange={e => setCategoryId(e.target.value)} required style={{ width: '100%', padding: '10px', borderRadius: '6px', border: '1px solid var(--border-color)' }}>
                     <option value="">Select a Category</option>
-                    {categories.map(cat => (
+                    {categories.map((cat: any) => (
                       <option key={cat.id} value={cat.id}>{cat.name}</option>
                     ))}
                   </select>
@@ -281,7 +281,7 @@ export default function ProductsManagement() {
                     ))}
                     
                     {/* New Images */}
-                    {images.map((file, i) => (
+                    {images.map((file: File, i: number) => (
                       <div key={`new-${i}`} className={styles.previewThumb}>
                         <img src={URL.createObjectURL(file)} alt="New" />
                       </div>

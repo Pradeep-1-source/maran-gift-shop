@@ -42,7 +42,7 @@ export default function CustomOrdersManagement() {
             <tbody>
               {orders.length === 0 ? (
                 <tr><td colSpan={4} style={{textAlign: 'center'}}>No custom orders found.</td></tr>
-              ) : orders.map(order => (
+              ) : orders.map((order: any) => (
                 <tr key={order.id}>
                   <td>
                     <div className={styles.imgPlaceholder} style={{ background: 'transparent', width: '60px', height: '60px' }}>

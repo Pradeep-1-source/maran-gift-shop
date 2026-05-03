@@ -35,7 +35,7 @@ export default function AddProductPage() {
       const newFiles = Array.from(e.target.files);
       setImages([...images, ...newFiles]);
       
-      const newUrls = newFiles.map(file => URL.createObjectURL(file));
+      const newUrls = newFiles.map((file: File) => URL.createObjectURL(file));
       setPreviewUrls([...previewUrls, ...newUrls]);
     }
   };
@@ -138,7 +138,7 @@ export default function AddProductPage() {
                 <input 
                   type="text" 
                   placeholder="Gold, Pink, Red" 
-                  onChange={(e) => setProduct({...product, colors: e.target.value.split(',').map(s => s.trim())})}
+                  onChange={(e) => setProduct({...product, colors: e.target.value.split(',').map((s: string) => s.trim())})}
                 />
               </div>
               <div className={styles.inputGroup}>
@@ -146,7 +146,7 @@ export default function AddProductPage() {
                 <input 
                   type="text" 
                   placeholder="Small, Medium, Large" 
-                  onChange={(e) => setProduct({...product, sizes: e.target.value.split(',').map(s => s.trim())})}
+                  onChange={(e) => setProduct({...product, sizes: e.target.value.split(',').map((s: string) => s.trim())})}
                 />
               </div>
             </div>
@@ -164,7 +164,7 @@ export default function AddProductPage() {
                 </label>
               </div>
               <div className={styles.previews}>
-                {previewUrls.map((url, i) => (
+                {previewUrls.map((url: string, i: number) => (
                   <div key={i} className={styles.thumb}>
                     <img src={url} alt="Preview" />
                     <button type="button" onClick={() => removeImage(i)}><X size={14} /></button>

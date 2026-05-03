@@ -121,7 +121,7 @@ export default function CategoriesManagement() {
             <tbody>
               {categories.length === 0 ? (
                 <tr><td colSpan={3} style={{textAlign: 'center'}}>No categories found.</td></tr>
-              ) : categories.map(cat => (
+              ) : categories.map((cat: any) => (
                 <tr key={cat.id}>
                   <td>
                     <div className={styles.imgPlaceholder} style={{ background: 'transparent', width: '60px', height: '60px' }}>
