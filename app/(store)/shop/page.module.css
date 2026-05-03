@@ -2,13 +2,6 @@
   width: 100%;
 }
 
-.heroListing {
-  background-color: var(--bg-secondary);
-  padding: 80px 0;
-  text-align: center;
-  border-bottom: 1px solid var(--border-color);
-}
-
 .label {
   display: block;
   font-size: 0.85rem;
@@ -19,17 +12,43 @@
   margin-bottom: 15px;
 }
 
-.heroListing h1 {
-  font-size: 3rem;
-  margin-bottom: 15px;
-  color: var(--brand-purple);
+.shopHeroBanner {
+  position: relative;
+  width: 100%;
+  height: 420px;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
 }
 
-.heroListing p {
-  color: var(--text-muted);
+.shopHeroOverlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to bottom, rgba(0,0,0,0.15) 0%, rgba(0,0,0,0.55) 100%);
+  z-index: 1;
+}
+
+.shopHeroContent {
+  position: relative;
+  z-index: 2;
+  padding: 0 20px;
+}
+
+.shopHeroContent h1 {
+  font-size: 3rem;
+  margin-bottom: 15px;
+  color: #ffffff;
+  text-shadow: 0 3px 12px rgba(0,0,0,0.4);
+}
+
+.shopHeroContent p {
+  color: rgba(255,255,255,0.9);
   font-size: 1.1rem;
   max-width: 600px;
   margin: 0 auto;
+  text-shadow: 0 2px 6px rgba(0,0,0,0.3);
 }
 
 .featuresGrid {
@@ -87,11 +106,14 @@
 }
 
 @media (max-width: 768px) {
-  .heroListing {
-    padding: 60px 20px;
+  .shopHeroBanner {
+    height: 260px;
   }
-  .heroListing h1 {
-    font-size: 2.2rem;
+  .shopHeroContent h1 {
+    font-size: 2rem;
+  }
+  .shopHeroContent p {
+    font-size: 1rem;
   }
   .quickContact h2 {
     font-size: 2rem;

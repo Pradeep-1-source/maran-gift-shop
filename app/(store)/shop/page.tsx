@@ -1,12 +1,21 @@
 import ProductCatalog from "@/components/ProductCatalog";
 import styles from "./page.module.css";
 import { Gift, Clock, Truck, ShieldCheck } from "lucide-react";
+import Image from "next/image";
 
 export default function ShopPage() {
   return (
     <div className={styles.page}>
-      <section className={styles.heroListing}>
-        <div className="container">
+      <section className={styles.shopHeroBanner}>
+        <Image
+          src="/shop-hero.jpg"
+          alt="AK Medias - Photography | Gifts | Photo Frames"
+          fill
+          priority
+          style={{ objectFit: 'cover', objectPosition: 'center' }}
+        />
+        <div className={styles.shopHeroOverlay} />
+        <div className={styles.shopHeroContent}>
           <span className={styles.label}>Curated Collection</span>
           <h1>Our Gift Catalog</h1>
           <p>Discover personalized and unique gifts for every special moment.</p>
