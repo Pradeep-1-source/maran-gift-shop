@@ -55,7 +55,7 @@ export default function AdminLogin() {
             <label><Mail size={16} /> Email / Username</label>
             <input 
               type="text" 
-              placeholder="akmedias403@gmail.com" 
+              placeholder="Enter your email" 
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               required

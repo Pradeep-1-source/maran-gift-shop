@@ -39,6 +39,7 @@ export default function Footer() {
             <li><Link href="/categories">Categories</Link></li>
             <li><Link href="/about">About Us</Link></li>
             <li><Link href="/contact">Contact</Link></li>
+            <li style={{ marginTop: '10px' }}><Link href="/admin/login" style={{ color: 'var(--brand-gold)', fontWeight: 'bold' }}>Admin Panel</Link></li>
           </ul>
         </div>
 
