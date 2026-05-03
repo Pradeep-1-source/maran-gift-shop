@@ -47,7 +47,7 @@ export default function ProductCatalog() {
           <span className={styles.categoryName}>All Gifts</span>
         </button>
 
-        {categories.map(cat => (
+        {categories.map((cat: any) => (
           <button 
             key={cat.id}
             className={`${styles.categoryItem} ${selectedCategory === cat.id ? styles.active : ''}`}
@@ -68,7 +68,7 @@ export default function ProductCatalog() {
         {loading ? (
           <div className={styles.loader}>Loading items...</div>
         ) : filteredProducts.length > 0 ? (
-          filteredProducts.map(product => (
+          filteredProducts.map((product: any) => (
             <ProductCard 
               key={product.id}
               id={product.id}
