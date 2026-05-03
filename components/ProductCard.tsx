@@ -11,7 +11,7 @@ interface ProductCardProps {
 }
 
 export default function ProductCard({ id, name, price, comparePrice, image, category }: ProductCardProps) {
-  const whatsappUrl = `https://wa.me/917904373403?text=${encodeURIComponent(`Hi, I'm interested in ${name} from Maran Gifts`)}`;
+  const whatsappUrl = `https://wa.me/917904373403?text=${encodeURIComponent(`Hi, I'm interested in ${name} from Gift Kadai`)}`;
 
   return (
     <div className={styles.card}>

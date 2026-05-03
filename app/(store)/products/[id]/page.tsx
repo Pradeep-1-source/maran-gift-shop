@@ -15,7 +15,7 @@ export default async function ProductDetails({ params }: { params: { id: string 
     notFound();
   }
 
-  const whatsappUrl = `https://wa.me/917904373403?text=${encodeURIComponent(`Hi, I'm interested in ${product.name} from Maran Gifts`)}`;
+  const whatsappUrl = `https://wa.me/917904373403?text=${encodeURIComponent(`Hi, I'm interested in ${product.name} from Gift Kadai`)}`;
 
   const images = product.images && product.images.length > 0 ? product.images : ['/hero.png'];
 
@@ -85,7 +85,7 @@ export default async function ProductDetails({ params }: { params: { id: string 
               </div>
               
               <div className={styles.contactInfo}>
-                <p><strong>Maran Gifts</strong> - Karthik Maran.R</p>
+                <p><b>Gift Kadai</b> - Karthik Maran.R</p>
                 <p>AK Medias, 61, Hospital Street, Thiruthuraipoondi</p>
               </div>
             </div>

@@ -14,9 +14,9 @@ export default function AboutPage() {
         <div className="container">
           <div className={styles.content}>
             <div className={styles.text}>
-              <h2>Maran Gift Shop</h2>
+              <h2>Gift Kadai</h2>
               <p>
-                Founded in the heart of Tiruchirappalli, Maran Gift Shop began with a simple mission: to help people express their love and appreciation through curated, high-quality gifts. 
+                Founded in the heart of Tiruchirappalli, Gift Kadai began with a simple mission: to help people express their love and appreciation through curated, high-quality gifts. 
               </p>
               <p>
                 We believe that every gift tells a story. Whether it's a birthday celebration, a wedding anniversary, or a corporate milestone, we are here to provide the perfect token of affection that will be cherished for years to come.

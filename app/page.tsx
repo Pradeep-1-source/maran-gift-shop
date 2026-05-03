@@ -1,6 +1,6 @@
 import Link from 'next/link';
+import Image from 'next/image';
 import styles from './page.module.css';
-import { Camera, Gift } from 'lucide-react';
 import Hero from '@/components/Hero';
 import ContactSection from '@/components/ContactSection';
 
@@ -14,8 +14,14 @@ export default function Home() {
           <div className={styles.optionsGrid}>
             {/* Photography Option */}
             <a href="https://bigdate.events/akmedias" target="_blank" className={styles.optionCard}>
-              <div className={styles.iconWrapper}>
-                <Camera size={48} strokeWidth={1.5} />
+              <div className={styles.iconWrapper} style={{ padding: '0', overflow: 'hidden' }}>
+                <Image 
+                  src="/photography_service_logo_1777820123816.png" 
+                  alt="Photography Services Logo" 
+                  width={120} 
+                  height={120}
+                  style={{ objectFit: 'contain' }}
+                />
               </div>
               <div className={styles.cardContent}>
                 <span className={styles.label}>Our Services</span>
@@ -27,8 +33,14 @@ export default function Home() {
 
             {/* Gifts Option */}
             <Link href="/shop" className={styles.optionCard}>
-              <div className={styles.iconWrapper}>
-                <Gift size={48} strokeWidth={1.5} />
+              <div className={styles.iconWrapper} style={{ padding: '0', overflow: 'hidden' }}>
+                <Image 
+                  src="/gifts_service_logo_1777820308596.png" 
+                  alt="Gift Kadai Logo" 
+                  width={120} 
+                  height={120}
+                  style={{ objectFit: 'contain' }}
+                />
               </div>
               <div className={styles.cardContent}>
                 <span className={styles.label}>Shop Catalog</span>

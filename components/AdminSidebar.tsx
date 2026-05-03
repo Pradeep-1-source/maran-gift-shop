@@ -19,7 +19,7 @@ export default function AdminSidebar() {
 
   return (
     <aside className={styles.sidebar}>
-      <div className={styles.logo}>MARAN<span>ADMIN</span></div>
+      <div className={styles.logo}>GIFTKADAI<span>ADMIN</span></div>
       <nav className={styles.nav}>
         <Link 
           href="/admin/dashboard" 

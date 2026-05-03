@@ -6,7 +6,7 @@ export default function Hero() {
       <div className={styles.overlay}></div>
       <div className={`${styles.content} container`}>
         <h1 className={styles.title}>
-          Maran Gifts – <br />
+          Gift Kadai – <br />
           <span>Make Every Moment Special 🎁</span>
         </h1>
         <p className={styles.description}>

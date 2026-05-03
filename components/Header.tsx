@@ -12,7 +12,7 @@ export default function Header() {
         </div>
 
         <Link href="/shop" className={styles.logo}>
-          MARAN<span>GIFTS</span>
+          GIFT<span>KADAI</span>
         </Link>
 
         <div className={styles.navRight}>

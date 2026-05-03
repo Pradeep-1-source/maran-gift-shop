@@ -17,7 +17,7 @@ export default async function AdminDashboardOverview() {
         <h1>Dashboard Overview</h1>
       </div>
       <p style={{ color: '#666', marginTop: '-10px', marginBottom: '30px' }}>
-        Welcome back to the Maran Gift Shop Admin Panel. Here's what's happening today.
+        Welcome back to the Gift Kadai Admin Panel. Here's what's happening today.
       </p>
 
       <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(250px, 1fr))', gap: '20px' }}>

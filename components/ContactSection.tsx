@@ -16,7 +16,7 @@ export default function ContactSection() {
                 <div className={styles.iconBox}><Home size={24} /></div>
                 <div>
                   <h4>Store Name</h4>
-                  <p>Maran Gifts (AK Medias)</p>
+                  <p>Gift Kadai (AK Medias)</p>
                 </div>
               </div>
               <div className={styles.detailItem}>

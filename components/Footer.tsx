@@ -20,7 +20,7 @@ export default function Footer() {
     <footer className={styles.footer}>
       <div className={`${styles.container} container`}>
         <div className={styles.info}>
-          <h2 className={styles.logo}>MARAN<span>GIFTS</span></h2>
+          <h2 className={styles.logo}>GIFT<span>KADAI</span></h2>
           <p className={styles.description}>
             Bringing joy and elegance through curated gifts for every special moment in your life.
           </p>
@@ -39,7 +39,6 @@ export default function Footer() {
             <li><Link href="/categories">Categories</Link></li>
             <li><Link href="/about">About Us</Link></li>
             <li><Link href="/contact">Contact</Link></li>
-            <li style={{ marginTop: '10px' }}><Link href="/admin/login" style={{ color: 'var(--brand-gold)', fontWeight: 'bold' }}>Admin Panel</Link></li>
           </ul>
         </div>
 
@@ -47,11 +46,11 @@ export default function Footer() {
           <h3>Visit Us</h3>
           <p><MapPin size={16} /> 61, Hospital Street, Hyper Mall Opposite, Thiruthuraipoondi-614713</p>
           <p><Phone size={16} /> +91 79043 73403</p>
-          <p><Mail size={16} /> hello@marangifts.com</p>
+          <p><Mail size={16} /> hello@giftkadai.com</p>
         </div>
       </div>
       <div className={styles.bottom}>
-        <p>&copy; {new Date().getFullYear()} Maran Gift Shop. All rights reserved.</p>
+        <p>&copy; {new Date().getFullYear()} Gift Kadai. All rights reserved.</p>
       </div>
     </footer>
   );
