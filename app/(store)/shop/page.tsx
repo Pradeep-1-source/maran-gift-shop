@@ -6,19 +6,23 @@ import Image from "next/image";
 export default function ShopPage() {
   return (
     <div className={styles.page}>
-      <section className={styles.shopHeroBanner}>
-        <Image
-          src="/shop-hero.jpg"
-          alt="AK Medias - Photography | Gifts | Photo Frames"
-          fill
-          priority
-          style={{ objectFit: 'cover', objectPosition: 'center' }}
-        />
-        <div className={styles.shopHeroOverlay} />
-        <div className={styles.shopHeroContent}>
-          <span className={styles.label}>Curated Collection</span>
-          <h1>Our Gift Catalog</h1>
-          <p>Discover personalized and unique gifts for every special moment.</p>
+      <section className={styles.shopHeroWrapper}>
+        <div className={styles.shopHeroImage}>
+          <Image
+            src="/shop-hero.jpg"
+            alt="AK Medias - Gift Kadai Banner"
+            width={1920}
+            height={600}
+            priority
+            className={styles.heroImg}
+          />
+        </div>
+        <div className={styles.shopHeroText}>
+          <div className="container">
+            <span className={styles.label}>Curated Collection</span>
+            <h1>Our Gift Catalog</h1>
+            <p>Discover personalized and unique gifts for every special moment.</p>
+          </div>
         </div>
       </section>
 
