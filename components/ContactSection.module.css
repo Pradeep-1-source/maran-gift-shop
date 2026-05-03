@@ -1,0 +1,94 @@
+.layout {
+  display: grid;
+  grid-template-columns: 1fr 1.2fr;
+  gap: 60px;
+  align-items: center;
+}
+
+.info {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.label {
+  font-size: 0.85rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  color: var(--brand-gold);
+}
+
+.title {
+  font-size: 2.5rem;
+  color: var(--brand-purple);
+}
+
+.subtitle {
+  color: var(--text-muted);
+  font-size: 1.1rem;
+  margin-bottom: 20px;
+}
+
+.detailsList {
+  display: flex;
+  flex-direction: column;
+  gap: 25px;
+}
+
+.detailItem {
+  display: flex;
+  gap: 20px;
+  align-items: flex-start;
+}
+
+.iconBox {
+  width: 50px;
+  height: 50px;
+  background: var(--bg-secondary);
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--brand-purple);
+  flex-shrink: 0;
+}
+
+.detailItem h4 {
+  font-size: 1rem;
+  color: var(--foreground);
+  margin-bottom: 4px;
+}
+
+.detailItem p {
+  color: var(--text-muted);
+  line-height: 1.5;
+}
+
+.mapContainer {
+  height: 500px;
+  background: var(--bg-secondary);
+  border-radius: 20px;
+  overflow: hidden;
+  box-shadow: var(--shadow-md);
+  border: 1px solid var(--border-color);
+}
+
+@media (max-width: 992px) {
+  .layout {
+    grid-template-columns: 1fr;
+    gap: 40px;
+  }
+  .mapContainer {
+    height: 400px;
+  }
+}
+
+@media (max-width: 600px) {
+  .title {
+    font-size: 2rem;
+  }
+  .mapContainer {
+    height: 300px;
+  }
+}

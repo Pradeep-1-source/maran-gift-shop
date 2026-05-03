@@ -1,0 +1,93 @@
+.optionsGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+  gap: 30px;
+  margin-top: -50px;
+  position: relative;
+  z-index: 10;
+}
+
+.optionCard {
+  background: white;
+  border-radius: 20px;
+  padding: 40px;
+  display: flex;
+  flex-direction: column;
+  gap: 25px;
+  border: 1px solid var(--border-color);
+  box-shadow: var(--shadow-md);
+  transition: var(--transition);
+  text-decoration: none;
+  color: inherit;
+}
+
+.optionCard:hover {
+  transform: translateY(-10px);
+  box-shadow: var(--shadow-lg);
+  border-color: var(--brand-gold);
+}
+
+.iconWrapper {
+  width: 80px;
+  height: 80px;
+  background-color: var(--bg-secondary);
+  border-radius: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--brand-purple);
+  transition: var(--transition);
+}
+
+.optionCard:hover .iconWrapper {
+  background-color: var(--brand-purple);
+  color: white;
+}
+
+.cardContent {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.label {
+  font-size: 0.85rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 1.5px;
+  color: var(--brand-gold);
+}
+
+.cardContent h2 {
+  font-size: 1.8rem;
+  color: var(--foreground);
+}
+
+.cardContent p {
+  color: var(--text-muted);
+  font-size: 1.05rem;
+  line-height: 1.5;
+}
+
+.actionLink {
+  margin-top: 10px;
+  font-weight: 600;
+  color: var(--brand-purple);
+  font-size: 1rem;
+}
+
+@media (max-width: 768px) {
+  .optionsGrid {
+    grid-template-columns: 1fr;
+    margin-top: 0;
+    padding: 0 10px;
+  }
+  
+  .optionCard {
+    padding: 30px;
+  }
+  
+  .cardContent h2 {
+    font-size: 1.5rem;
+  }
+}
