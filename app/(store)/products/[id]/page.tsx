@@ -54,10 +54,16 @@ export default async function ProductDetails({ params }: { params: Promise<{ id:
               )}
 
               <div className={styles.actions}>
-                <a href={whatsappUrl} target="_blank" className={styles.whatsappAction}>
-                  <Phone size={20} />
-                  WhatsApp Enquiry
-                </a>
+                {product.in_stock !== false ? (
+                  <a href={whatsappUrl} target="_blank" className={styles.whatsappAction}>
+                    <Phone size={20} />
+                    WhatsApp Enquiry
+                  </a>
+                ) : (
+                  <button className={styles.outOfStockBtn} disabled>
+                    Currently Out of Stock
+                  </button>
+                )}
                 <button className={styles.iconBtn} title="Add to Wishlist"><Heart size={22} /></button>
                 <button className={styles.iconBtn} title="Share"><Share2 size={22} /></button>
               </div>

@@ -18,6 +18,7 @@ export default function ProductsManagement() {
   const [categoryId, setCategoryId] = useState('');
   const [description, setDescription] = useState('');
   const [isCustomizable, setIsCustomizable] = useState(false);
+  const [inStock, setInStock] = useState(true);
   const [existingImages, setExistingImages] = useState<string[]>([]);
   const [images, setImages] = useState<File[]>([]);
   
@@ -57,6 +58,7 @@ export default function ProductsManagement() {
     setCategoryId(product.category_id || '');
     setDescription(product.description || '');
     setIsCustomizable(product.is_customizable);
+    setInStock(product.in_stock ?? true);
     setExistingImages(product.images || []);
     setImages([]);
     setShowAddModal(true);
@@ -86,6 +88,7 @@ export default function ProductsManagement() {
         category_id: categoryId || null,
         description,
         is_customizable: isCustomizable,
+        in_stock: inStock,
         images: imageUrls,
       };
 
@@ -115,6 +118,7 @@ export default function ProductsManagement() {
       setCategoryId('');
       setDescription('');
       setIsCustomizable(false);
+      setInStock(true);
       setExistingImages([]);
       setImages([]);
       setIsEditing(false);
@@ -156,6 +160,7 @@ export default function ProductsManagement() {
                 <th>Category</th>
                 <th>Price</th>
                 <th>Customizable</th>
+                <th>Stock</th>
                 <th>Actions</th>
               </tr>
             </thead>
@@ -177,6 +182,18 @@ export default function ProductsManagement() {
                   <td>{product.categories?.name || 'Uncategorized'}</td>
                   <td>₹{product.price} {product.compare_price && <span style={{ textDecoration: 'line-through', color: '#888', fontSize: '0.9em' }}>₹{product.compare_price}</span>}</td>
                   <td>{product.is_customizable ? '✅ Yes' : '❌ No'}</td>
+                  <td>
+                    <span style={{ 
+                      padding: '4px 8px', 
+                      borderRadius: '4px', 
+                      fontSize: '12px', 
+                      fontWeight: 'bold', 
+                      backgroundColor: product.in_stock !== false ? '#e8f5e9' : '#ffebee', 
+                      color: product.in_stock !== false ? '#2e7d32' : '#c62828' 
+                    }}>
+                      {product.in_stock !== false ? 'In Stock' : 'Out of Stock'}
+                    </span>
+                  </td>
                   <td>
                     <div className={styles.actions}>
                       <button 
@@ -262,6 +279,13 @@ export default function ProductsManagement() {
                   <label style={{ display: 'flex', alignItems: 'center', gap: '10px', cursor: 'pointer' }}>
                     <input type="checkbox" checked={isCustomizable} onChange={e => setIsCustomizable(e.target.checked)} style={{ width: 'auto' }} />
                     Is this a Customizable Product? (Allows users to upload photos)
+                  </label>
+                </div>
+
+                <div className={styles.inputGroup}>
+                  <label style={{ display: 'flex', alignItems: 'center', gap: '10px', cursor: 'pointer' }}>
+                    <input type="checkbox" checked={inStock} onChange={e => setInStock(e.target.checked)} style={{ width: 'auto' }} />
+                    In Stock (Uncheck to mark as out of stock)
                   </label>
                 </div>
 

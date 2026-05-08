@@ -3,6 +3,8 @@ import { createClient } from '@/lib/supabase/server';
 import { notFound } from 'next/navigation';
 import { ChevronLeft } from 'lucide-react';
 import styles from './CategoryDetail.module.css';
+import ProductCard from '@/components/ProductCard';
+import FadeIn from '@/components/FadeIn';
 
 export default async function CategoryDetailPage({ params }: { params: Promise<{ id: string }> }) {
   const resolvedParams = await params;
@@ -41,29 +43,23 @@ export default async function CategoryDetailPage({ params }: { params: Promise<{
         <div className="container">
           {products && products.length > 0 ? (
             <div className={styles.grid}>
-              {products.map((product: any) => {
+              {products.map((product: any, index: number) => {
                 const image =
                   product.images && product.images.length > 0
                     ? product.images[0]
                     : '/hero.png';
                 return (
-                  <Link href={`/products/${product.id}`} key={product.id} className={styles.card}>
-                    <div className={styles.imageWrapper}>
-                      <img src={image} alt={product.name} />
-                      {product.compare_price && (
-                        <span className={styles.badge}>Sale</span>
-                      )}
-                    </div>
-                    <div className={styles.cardBody}>
-                      <h3>{product.name}</h3>
-                      <div className={styles.priceRow}>
-                        <span className={styles.price}>₹{product.price?.toLocaleString()}</span>
-                        {product.compare_price && (
-                          <span className={styles.comparePrice}>₹{product.compare_price?.toLocaleString()}</span>
-                        )}
-                      </div>
-                    </div>
-                  </Link>
+                  <FadeIn key={product.id} delay={index * 0.05}>
+                    <ProductCard 
+                      id={product.id}
+                      name={product.name}
+                      price={product.price}
+                      comparePrice={product.compare_price}
+                      image={image}
+                      category={category.name}
+                      inStock={product.in_stock ?? true}
+                    />
+                  </FadeIn>
                 );
               })}
             </div>

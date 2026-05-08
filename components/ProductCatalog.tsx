@@ -5,6 +5,7 @@ import ProductCard from './ProductCard';
 import { Gift, LayoutGrid } from 'lucide-react';
 import styles from './ProductCatalog.module.css';
 import { createClient } from '@/lib/supabase/client';
+import FadeIn from './FadeIn';
 
 export default function ProductCatalog() {
   const [products, setProducts] = useState<any[]>([]);
@@ -68,16 +69,18 @@ export default function ProductCatalog() {
         {loading ? (
           <div className={styles.loader}>Loading items...</div>
         ) : filteredProducts.length > 0 ? (
-          filteredProducts.map((product: any) => (
-            <ProductCard 
-              key={product.id}
-              id={product.id}
-              name={product.name}
-              price={product.price}
-              comparePrice={product.compare_price}
-              image={product.images?.[0] || '/cat-birthday.png'}
-              category={product.categories?.name || ''}
-            />
+          filteredProducts.map((product: any, index: number) => (
+            <FadeIn key={product.id} delay={index * 0.05}>
+              <ProductCard 
+                id={product.id}
+                name={product.name}
+                price={product.price}
+                comparePrice={product.compare_price}
+                image={product.images?.[0] || '/cat-birthday.png'}
+                category={product.categories?.name || ''}
+                inStock={product.in_stock ?? true}
+              />
+            </FadeIn>
           ))
         ) : (
           <div className={styles.empty}>No products found in this category.</div>
