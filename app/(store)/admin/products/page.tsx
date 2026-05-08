@@ -18,6 +18,7 @@ export default function ProductsManagement() {
   const [categoryId, setCategoryId] = useState('');
   const [description, setDescription] = useState('');
   const [isCustomizable, setIsCustomizable] = useState(false);
+  const [existingImages, setExistingImages] = useState<string[]>([]);
   const [images, setImages] = useState<File[]>([]);
   
   const [uploading, setUploading] = useState(false);
@@ -41,7 +42,10 @@ export default function ProductsManagement() {
   };
 
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    if (e.target.files) setImages(Array.from(e.target.files));
+    if (e.target.files) {
+      const newFiles = Array.from(e.target.files);
+      setImages(prev => [...prev, ...newFiles]);
+    }
   };
 
   const handleEdit = (product: any) => {
@@ -53,6 +57,8 @@ export default function ProductsManagement() {
     setCategoryId(product.category_id || '');
     setDescription(product.description || '');
     setIsCustomizable(product.is_customizable);
+    setExistingImages(product.images || []);
+    setImages([]);
     setShowAddModal(true);
   };
 
@@ -60,17 +66,9 @@ export default function ProductsManagement() {
     e.preventDefault();
     setUploading(true);
     try {
-      let imageUrls: string[] = [];
-
-      // If editing, we might want to keep existing images if no new ones are uploaded
-      if (isEditing && images.length === 0) {
-        const product = products.find(p => p.id === editingId);
-        imageUrls = product?.images || [];
-      }
+      let imageUrls: string[] = [...existingImages];
 
       if (images.length > 0) {
-        // If editing and uploading new images, we could optionally delete old ones
-        // For simplicity, we just add new ones or replace the list
         for (const file of images) {
           const fileExt = file.name.split('.').pop();
           const fileName = `${Math.random()}.${fileExt}`;
@@ -117,6 +115,7 @@ export default function ProductsManagement() {
       setCategoryId('');
       setDescription('');
       setIsCustomizable(false);
+      setExistingImages([]);
       setImages([]);
       setIsEditing(false);
       setEditingId(null);
@@ -274,16 +273,18 @@ export default function ProductsManagement() {
                   <label>Product Images</label>
                   <div className={styles.imageGalleryPreview}>
                     {/* Existing Images (when editing) */}
-                    {isEditing && !images.length && products.find(p => p.id === editingId)?.images?.map((url: string, i: number) => (
-                      <div key={`old-${i}`} className={styles.previewThumb}>
+                    {existingImages.map((url: string, i: number) => (
+                      <div key={`old-${i}`} className={styles.previewThumb} style={{ position: 'relative' }}>
                         <img src={url} alt="Existing" />
+                        <button type="button" onClick={() => setExistingImages(prev => prev.filter((_, index) => index !== i))} style={{ position: 'absolute', top: '-5px', right: '-5px', background: 'red', color: 'white', borderRadius: '50%', width: '20px', height: '20px', display: 'flex', alignItems: 'center', justifyContent: 'center', cursor: 'pointer', border: 'none', padding: 0 }}><X size={12} /></button>
                       </div>
                     ))}
                     
                     {/* New Images */}
                     {images.map((file: File, i: number) => (
-                      <div key={`new-${i}`} className={styles.previewThumb}>
+                      <div key={`new-${i}`} className={styles.previewThumb} style={{ position: 'relative' }}>
                         <img src={URL.createObjectURL(file)} alt="New" />
+                        <button type="button" onClick={() => setImages(prev => prev.filter((_, index) => index !== i))} style={{ position: 'absolute', top: '-5px', right: '-5px', background: 'red', color: 'white', borderRadius: '50%', width: '20px', height: '20px', display: 'flex', alignItems: 'center', justifyContent: 'center', cursor: 'pointer', border: 'none', padding: 0 }}><X size={12} /></button>
                       </div>
                     ))}
 

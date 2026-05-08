@@ -4,11 +4,13 @@ import Link from 'next/link';
 import { supabase } from '@/lib/supabase';
 import { notFound } from 'next/navigation';
 import ProductCustomizer from '@/components/ProductCustomizer';
+import ProductImageGallery from '@/components/ProductImageGallery';
 
 export const revalidate = 0;
 
-export default async function ProductDetails({ params }: { params: { id: string } }) {
-  const { id } = await params;
+export default async function ProductDetails({ params }: { params: Promise<{ id: string }> }) {
+  const resolvedParams = await params;
+  const { id } = resolvedParams;
   const { data: product } = await supabase.from('products').select('*, categories(name)').eq('id', id).single();
 
   if (!product) {
@@ -29,20 +31,7 @@ export default async function ProductDetails({ params }: { params: { id: string 
 
           <div className={styles.layout}>
             {/* Image Gallery */}
-            <div className={styles.gallery}>
-              <div className={styles.mainImage}>
-                <img src={images[0]} alt={product.name} />
-              </div>
-              {images.length > 1 && (
-                <div className={styles.thumbnails}>
-                  {images.map((img: string, i: number) => (
-                    <div key={i} className={styles.thumb}>
-                      <img src={img} alt={`Thumb ${i}`} />
-                    </div>
-                  ))}
-                </div>
-              )}
-            </div>
+            <ProductImageGallery images={images} productName={product.name} />
 
             {/* Product Info */}
             <div className={styles.info}>
