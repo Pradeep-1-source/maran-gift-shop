@@ -17,6 +17,7 @@ CREATE TABLE IF NOT EXISTS public.products (
   category_id uuid REFERENCES public.categories(id) ON DELETE SET NULL,
   images text[] DEFAULT '{}'::text[],
   is_customizable boolean DEFAULT false,
+  in_stock boolean DEFAULT true,
   created_at timestamp with time zone DEFAULT timezone('utc'::text, now()) NOT NULL
 );
 

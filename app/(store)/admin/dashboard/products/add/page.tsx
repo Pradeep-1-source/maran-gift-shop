@@ -3,32 +3,51 @@
 import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import styles from './AddProduct.module.css';
-import { ChevronLeft, Upload, Plus, X, Save } from 'lucide-react';
+import { ChevronLeft, Upload, X, Save } from 'lucide-react';
 import Link from 'next/link';
+import { createClient } from '@/lib/supabase/client';
 
 export default function AddProductPage() {
   const router = useRouter();
   const [loading, setLoading] = useState(false);
-  
+  const [authChecking, setAuthChecking] = useState(true);
+  const [categories, setCategories] = useState<any[]>([]);
+  const supabase = createClient();
+
   // Form State
-  const [product, setProduct] = useState({
-    name: '',
-    description: '',
-    price: '',
-    category: '',
-    isFeatured: false,
-    isBestseller: false,
-    colors: [] as string[],
-    sizes: [] as string[],
-  });
+  const [name, setName] = useState('');
+  const [description, setDescription] = useState('');
+  const [price, setPrice] = useState('');
+  const [comparePrice, setComparePrice] = useState('');
+  const [categoryId, setCategoryId] = useState('');
+  const [isCustomizable, setIsCustomizable] = useState(false);
+  const [inStock, setInStock] = useState(true);
 
   const [images, setImages] = useState<File[]>([]);
   const [previewUrls, setPreviewUrls] = useState<string[]>([]);
 
+  // Authenticated State & Categories Fetching
   useEffect(() => {
-    const isAdmin = localStorage.getItem('isAdmin');
-    if (!isAdmin) router.push('/admin/login');
-  }, [router]);
+    async function checkAuthAndLoadData() {
+      try {
+        const { data: { user } } = await supabase.auth.getUser();
+        if (!user) {
+          router.push('/admin/login');
+          return;
+        }
+        setAuthChecking(false);
+
+        const { data: cats } = await supabase.from('categories').select('*').order('name');
+        if (cats) {
+          setCategories(cats);
+        }
+      } catch (err) {
+        console.error('Error authenticating or loading categories:', err);
+        setAuthChecking(false);
+      }
+    }
+    checkAuthAndLoadData();
+  }, [router, supabase]);
 
   const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files) {
@@ -52,27 +71,75 @@ export default function AddProductPage() {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    setLoading(true);
-    
-    // In a real app: 
-    // 1. Upload images to Supabase Storage
-    // 2. Save product details to Supabase 'products' table
-    
-    console.log('Product Data:', product);
-    console.log('Images to upload:', images);
+    if (loading) return;
 
-    setTimeout(() => {
-      alert('Product Added Successfully! (Simulation)');
+    setLoading(true);
+
+    try {
+      const imageUrls: string[] = [];
+
+      // 1. Upload images to Supabase Storage in the 'product-images' bucket
+      if (images.length > 0) {
+        for (const file of images) {
+          const fileExt = file.name.split('.').pop();
+          const fileName = `${Math.random().toString(36).substring(2)}.${fileExt}`;
+          
+          const { error: uploadError } = await supabase.storage
+            .from('product-images')
+            .upload(fileName, file);
+
+          if (uploadError) {
+            throw new Error(`Failed to upload image: ${uploadError.message}`);
+          }
+
+          const { data } = supabase.storage.from('product-images').getPublicUrl(fileName);
+          if (data?.publicUrl) {
+            imageUrls.push(data.publicUrl);
+          }
+        }
+      }
+
+      // 2. Formulate real product payload
+      const productData = {
+        name,
+        price: parseFloat(price),
+        compare_price: comparePrice ? parseFloat(comparePrice) : null,
+        category_id: categoryId || null,
+        description,
+        is_customizable: isCustomizable,
+        in_stock: inStock,
+        images: imageUrls,
+      };
+
+      // 3. Save details to Supabase 'products' table
+      const { error: insertError } = await supabase.from('products').insert([productData]);
+      if (insertError) {
+        throw insertError;
+      }
+
+      alert('Product saved successfully!');
+      router.push('/admin/products');
+    } catch (err: any) {
+      console.error(err);
+      alert(err.message || 'Failed to save product. Please try again.');
+    } finally {
       setLoading(false);
-      router.push('/admin/dashboard');
-    }, 1500);
+    }
   };
+
+  if (authChecking) {
+    return (
+      <div style={{ padding: '50px', textAlign: 'center', color: 'var(--text-muted)' }}>
+        Verifying administrator access...
+      </div>
+    );
+  }
 
   return (
     <div className={styles.container}>
       <header className={styles.header}>
-        <Link href="/admin/dashboard" className={styles.backBtn}>
-          <ChevronLeft size={20} /> Back to Dashboard
+        <Link href="/admin/products" className={styles.backBtn}>
+          <ChevronLeft size={20} /> Back to Products list
         </Link>
         <h1>Add New Product</h1>
       </header>
@@ -88,8 +155,8 @@ export default function AddProductPage() {
                 <input 
                   type="text" 
                   placeholder="e.g. Elegant Flower Box" 
-                  value={product.name}
-                  onChange={(e) => setProduct({...product, name: e.target.value})}
+                  value={name}
+                  onChange={(e) => setName(e.target.value)}
                   required 
                 />
               </div>
@@ -98,8 +165,8 @@ export default function AddProductPage() {
                 <textarea 
                   rows={6} 
                   placeholder="Describe the product details..."
-                  value={product.description}
-                  onChange={(e) => setProduct({...product, description: e.target.value})}
+                  value={description}
+                  onChange={(e) => setDescription(e.target.value)}
                   required
                 />
               </div>
@@ -108,46 +175,38 @@ export default function AddProductPage() {
                   <label>Price (₹)</label>
                   <input 
                     type="number" 
+                    step="0.01"
                     placeholder="1499" 
-                    value={product.price}
-                    onChange={(e) => setProduct({...product, price: e.target.value})}
+                    value={price}
+                    onChange={(e) => setPrice(e.target.value)}
                     required 
                   />
                 </div>
                 <div className={styles.inputGroup}>
-                  <label>Category</label>
-                  <select 
-                    value={product.category}
-                    onChange={(e) => setProduct({...product, category: e.target.value})}
-                    required
-                  >
-                    <option value="">Select Category</option>
-                    <option value="birthday">Birthday</option>
-                    <option value="anniversary">Anniversary</option>
-                    <option value="custom">Custom</option>
-                    <option value="baby">Baby Gifts</option>
-                  </select>
+                  <label>Compare Price (₹) - Optional</label>
+                  <input 
+                    type="number" 
+                    step="0.01"
+                    placeholder="1999" 
+                    value={comparePrice}
+                    onChange={(e) => setComparePrice(e.target.value)}
+                  />
                 </div>
               </div>
-            </div>
-
-            <div className={styles.card}>
-              <h3>Product Variants</h3>
               <div className={styles.inputGroup}>
-                <label>Colors (Comma separated)</label>
-                <input 
-                  type="text" 
-                  placeholder="Gold, Pink, Red" 
-                  onChange={(e) => setProduct({...product, colors: e.target.value.split(',').map((s: string) => s.trim())})}
-                />
-              </div>
-              <div className={styles.inputGroup}>
-                <label>Sizes (Comma separated)</label>
-                <input 
-                  type="text" 
-                  placeholder="Small, Medium, Large" 
-                  onChange={(e) => setProduct({...product, sizes: e.target.value.split(',').map((s: string) => s.trim())})}
-                />
+                <label>Category</label>
+                <select 
+                  value={categoryId}
+                  onChange={(e) => setCategoryId(e.target.value)}
+                  required
+                >
+                  <option value="">Select Category</option>
+                  {categories.map((cat: any) => (
+                    <option key={cat.id} value={cat.id}>
+                      {cat.name}
+                    </option>
+                  ))}
+                </select>
               </div>
             </div>
           </div>
@@ -174,22 +233,22 @@ export default function AddProductPage() {
             </div>
 
             <div className={styles.card}>
-              <h3>Visibility Settings</h3>
+              <h3>Visibility & Customization</h3>
               <label className={styles.checkbox}>
                 <input 
                   type="checkbox" 
-                  checked={product.isFeatured}
-                  onChange={(e) => setProduct({...product, isFeatured: e.target.checked})}
+                  checked={isCustomizable}
+                  onChange={(e) => setIsCustomizable(e.target.checked)}
                 />
-                <span>Set as Featured Product</span>
+                <span>Is this a Customizable Product? (Allows users to upload photos)</span>
               </label>
               <label className={styles.checkbox}>
                 <input 
                   type="checkbox" 
-                  checked={product.isBestseller}
-                  onChange={(e) => setProduct({...product, isBestseller: e.target.checked})}
+                  checked={inStock}
+                  onChange={(e) => setInStock(e.target.checked)}
                 />
-                <span>Set as Bestseller</span>
+                <span>In Stock (Uncheck to mark as out of stock)</span>
               </label>
             </div>
 

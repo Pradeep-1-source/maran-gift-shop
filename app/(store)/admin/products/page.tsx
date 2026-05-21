@@ -4,6 +4,7 @@ import { useEffect, useState } from 'react';
 import { createClient } from '@/lib/supabase/client';
 import styles from '@/app/(store)/admin/dashboard/Dashboard.module.css';
 import { Plus, Trash2, X, Image as ImageIcon, Edit } from 'lucide-react';
+import Link from 'next/link';
 
 export default function ProductsManagement() {
   const [products, setProducts] = useState<any[]>([]);
@@ -143,9 +144,9 @@ export default function ProductsManagement() {
     <div style={{ width: '100%' }}>
       <div className={styles.header}>
         <h1>Product Management</h1>
-        <button className="btn btn-primary" onClick={() => setShowAddModal(true)}>
+        <Link href="/admin/dashboard/products/add" className="btn btn-primary">
           <Plus size={20} /> Add Product
-        </button>
+        </Link>
       </div>
 
       <div className={styles.tableCard}>

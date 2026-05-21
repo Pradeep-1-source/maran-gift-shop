@@ -32,7 +32,7 @@
   flex: 1;
 }
 
-.nav button {
+.nav a, .nav button {
   display: flex;
   align-items: center;
   gap: 15px;
@@ -45,16 +45,18 @@
   cursor: pointer;
   transition: var(--transition);
   font-size: 1rem;
+  width: 100%;
 }
 
-.nav button:hover, .nav button.active {
+.nav a:hover, .nav a.active, .nav button:hover, .nav button.active {
   background-color: var(--bg-secondary);
   color: var(--brand-purple);
 }
 
-.nav button.active {
+.nav a.active, .nav button.active {
   color: var(--brand-gold);
   background-color: #fdf2f5;
+  box-shadow: inset 4px 0 0 var(--brand-gold);
 }
 
 .logout {
@@ -323,4 +325,25 @@
   .sidebar { width: 80px; padding: 20px; }
   .logo, .nav button span, .logout span { display: none; }
   .stats { grid-template-columns: 1fr; }
+}
+
+.metricCard {
+  padding: 30px;
+  background: white;
+  border-radius: 16px;
+  box-shadow: var(--shadow-sm);
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  cursor: pointer;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  border: 1px solid var(--border-color);
+  text-decoration: none;
+  color: inherit;
+}
+
+.metricCard:hover {
+  transform: translateY(-4px);
+  box-shadow: var(--shadow-md);
+  border-color: var(--brand-gold);
 }
