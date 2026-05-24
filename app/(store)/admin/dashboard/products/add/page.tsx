@@ -167,7 +167,6 @@ export default function AddProductPage() {
                   placeholder="Describe the product details..."
                   value={description}
                   onChange={(e) => setDescription(e.target.value)}
-                  required
                 />
               </div>
               <div className={styles.row}>
@@ -198,7 +197,6 @@ export default function AddProductPage() {
                 <select 
                   value={categoryId}
                   onChange={(e) => setCategoryId(e.target.value)}
-                  required
                 >
                   <option value="">Select Category</option>
                   {categories.map((cat: any) => (

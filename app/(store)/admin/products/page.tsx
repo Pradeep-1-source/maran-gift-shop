@@ -144,9 +144,17 @@ export default function ProductsManagement() {
     <div style={{ width: '100%' }}>
       <div className={styles.header}>
         <h1>Product Management</h1>
-        <Link href="/admin/dashboard/products/add" className="btn btn-primary">
+        <button 
+          onClick={() => {
+            setIsEditing(false);
+            resetForm();
+            setShowAddModal(true);
+          }} 
+          className="btn btn-primary"
+          style={{ display: 'flex', alignItems: 'center', gap: '5px' }}
+        >
           <Plus size={20} /> Add Product
-        </Link>
+        </button>
       </div>
 
       <div className={styles.tableCard}>
@@ -268,7 +276,7 @@ export default function ProductsManagement() {
 
                 <div className={styles.inputGroup}>
                   <label>Category</label>
-                  <select value={categoryId} onChange={e => setCategoryId(e.target.value)} required style={{ width: '100%', padding: '10px', borderRadius: '6px', border: '1px solid var(--border-color)' }}>
+                  <select value={categoryId} onChange={e => setCategoryId(e.target.value)} style={{ width: '100%', padding: '10px', borderRadius: '6px', border: '1px solid var(--border-color)' }}>
                     <option value="">Select a Category</option>
                     {categories.map((cat: any) => (
                       <option key={cat.id} value={cat.id}>{cat.name}</option>
@@ -292,7 +300,7 @@ export default function ProductsManagement() {
 
                 <div className={styles.inputGroup}>
                   <label>Description</label>
-                  <textarea rows={4} value={description} onChange={e => setDescription(e.target.value)} required style={{ width: '100%', padding: '10px', borderRadius: '6px', border: '1px solid var(--border-color)', resize: 'vertical' }}></textarea>
+                  <textarea rows={4} value={description} onChange={e => setDescription(e.target.value)} style={{ width: '100%', padding: '10px', borderRadius: '6px', border: '1px solid var(--border-color)', resize: 'vertical' }}></textarea>
                 </div>
                 <div className={styles.inputGroup}>
                   <label>Product Images</label>
