@@ -3,7 +3,7 @@
 import { useEffect, useState } from 'react';
 import { createClient } from '@/lib/supabase/client';
 import styles from '@/app/(store)/admin/dashboard/Dashboard.module.css';
-import { Plus, Trash2, X, Image as ImageIcon, Edit } from 'lucide-react';
+import { Plus, Trash2, X, Image as ImageIcon, Edit, Download } from 'lucide-react';
 import Link from 'next/link';
 
 export default function ProductsManagement() {
@@ -140,21 +140,64 @@ export default function ProductsManagement() {
     fetchData();
   };
 
+  const exportToCSV = () => {
+    if (products.length === 0) return;
+    
+    const headers = ['ID', 'Name', 'Category', 'Price', 'Compare Price', 'Customizable', 'In Stock', 'Description', 'Created At'];
+    
+    const csvRows = [headers.join(',')];
+    
+    products.forEach(product => {
+      const row = [
+        product.id,
+        `"${(product.name || '').replace(/"/g, '""')}"`,
+        `"${(product.categories?.name || 'Uncategorized').replace(/"/g, '""')}"`,
+        product.price,
+        product.compare_price || '',
+        product.is_customizable ? 'Yes' : 'No',
+        product.in_stock !== false ? 'Yes' : 'No',
+        `"${(product.description || '').replace(/"/g, '""')}"`,
+        product.created_at
+      ];
+      csvRows.push(row.join(','));
+    });
+    
+    const csvContent = csvRows.join('\n');
+    const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+    const url = URL.createObjectURL(blob);
+    const link = document.createElement('a');
+    link.href = url;
+    link.setAttribute('download', `products_export_${new Date().toISOString().split('T')[0]}.csv`);
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+  };
+
   return (
     <div style={{ width: '100%' }}>
       <div className={styles.header}>
         <h1>Product Management</h1>
-        <button 
-          onClick={() => {
-            setIsEditing(false);
-            resetForm();
-            setShowAddModal(true);
-          }} 
-          className="btn btn-primary"
-          style={{ display: 'flex', alignItems: 'center', gap: '5px' }}
-        >
-          <Plus size={20} /> Add Product
-        </button>
+        <div style={{ display: 'flex', gap: '10px' }}>
+          <button 
+            onClick={exportToCSV} 
+            className="btn btn-secondary"
+            style={{ display: 'flex', alignItems: 'center', gap: '5px', background: '#f5f5f5', color: '#333', border: '1px solid #ccc', padding: '10px 15px', borderRadius: '8px', cursor: 'pointer', fontWeight: '500' }}
+            disabled={products.length === 0}
+          >
+            <Download size={20} /> Export CSV
+          </button>
+          <button 
+            onClick={() => {
+              setIsEditing(false);
+              resetForm();
+              setShowAddModal(true);
+            }} 
+            className="btn btn-primary"
+            style={{ display: 'flex', alignItems: 'center', gap: '5px', padding: '10px 15px', borderRadius: '8px', cursor: 'pointer', fontWeight: '500' }}
+          >
+            <Plus size={20} /> Add Product
+          </button>
+        </div>
       </div>
 
       <div className={styles.tableCard}>
