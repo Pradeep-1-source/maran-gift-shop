@@ -143,11 +143,13 @@ export default function ProductsManagement() {
   const exportToCSV = () => {
     if (products.length === 0) return;
     
-    const headers = ['ID', 'Name', 'Category', 'Price', 'Compare Price', 'Customizable', 'In Stock', 'Description', 'Created At'];
+    const headers = ['ID', 'Name', 'Category', 'Price', 'Compare Price', 'Customizable', 'In Stock', 'Description', 'Images', 'Created At'];
     
     const csvRows = [headers.join(',')];
     
     products.forEach(product => {
+      const imageUrls = product.images ? product.images.join(' | ') : '';
+      
       const row = [
         product.id,
         `"${(product.name || '').replace(/"/g, '""')}"`,
@@ -157,6 +159,7 @@ export default function ProductsManagement() {
         product.is_customizable ? 'Yes' : 'No',
         product.in_stock !== false ? 'Yes' : 'No',
         `"${(product.description || '').replace(/"/g, '""')}"`,
+        `"${imageUrls}"`,
         product.created_at
       ];
       csvRows.push(row.join(','));
